@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>進制轉換計算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            color: #ea59a6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        input, select, button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .process {
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: left;
+            background-color: #fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>進制換算計算器</h1>
+    <div class="container">
+        <label for="inputNumber">輸入數字：</label><br>
+        <input type="text" id="inputNumber" placeholder="請輸入數字">
+
+        <div>
+            <label for="fromBase">從：</label>
+            <select id="fromBase">
+                <!-- 生成 2 到 36 的選項 -->
+                <script>
+                    for (let i = 2; i <= 36; i++) {
+                        document.write(`<option value="${i}">${i} 進制</option>`);
+                    }
+                </script>
+            </select>
+
+            <label for="toBase">到：</label>
+            <select id="toBase">
+                <script>
+                    for (let i = 2; i <= 36; i++) {
+                        document.write(`<option value="${i}">${i} 進制</option>`);
+                    }
+                </script>
+            </select>
+        </div>
+
+        <button onclick="convertBase()">進行轉換</button>
+
+        <div class="result" id="result">轉換結果將顯示在此處。</div>
+
+        <div class="process" id="process">轉換過程將顯示在此處。</div>
+    </div>
+
+    <script>
+        function convertBase() {
+            const inputNumber = document.getElementById('inputNumber').value;
+            const fromBase = parseInt(document.getElementById('fromBase').value);
+            const toBase = parseInt(document.getElementById('toBase').value);
+
+            const resultElement = document.getElementById('result');
+            const processElement = document.getElementById('process');
+
+            try {
+                // 驗證輸入的數字
+                if (!inputNumber || isNaN(parseInt(inputNumber, fromBase))) {
+                    throw new Error('請輸入有效的數字！');
+                }
+
+                // 將輸入數字從 fromBase 轉換為 10 進制
+                const decimalValue = parseInt(inputNumber, fromBase);
+                
+                // 將 10 進制數字轉換為 toBase
+                const convertedValue = decimalValue.toString(toBase).toUpperCase();
+
+                // 顯示結果
+                resultElement.innerHTML = `轉換結果：<strong>${convertedValue}</strong>`;
+
+                // 顯示過程
+                processElement.innerHTML = `輸入數字：<strong>${inputNumber}</strong><br>
+                                            來源進制：<strong>${fromBase} 進制</strong><br>
+                                            轉換為 10 進制：<strong>${decimalValue}</strong><br>
+                                            轉換為目標進制 (${toBase} 進制)：<strong>${convertedValue}</strong>`;
+            } catch (error) {
+                resultElement.innerHTML = `<span style="color: red;">錯誤：${error.message}</span>`;
+                processElement.innerHTML = '';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隨機顏色生成器</title>
+</head>
+<body>
+    <h1>隨機顏色生成器</h1>
+    <button onclick="generateColor()">生成隨機顏色</button>
+    <p id="colorDisplay"></p>
+
+    <script>
+        function generateColor() {
+            const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+            document.body.style.backgroundColor = randomColor;
+            document.getElementById('colorDisplay').textContent = `顏色：${randomColor}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拖放排序遊戲</title>
+    <style>
+        .sortable {
+            display: flex;
+            gap: 10px;
+        }
+        .item {
+            width: 100px;
+            height: 100px;
+            background-color: #ddd;
+            text-align: center;
+            line-height: 100px;
+            font-size: 24px;
+            cursor: grab;
+        }
+    </style>
+</head>
+<body>
+    <h1>拖放排序遊戲</h1>
+    <div class="sortable">
+        <div class="item" draggable="true" ondragstart="drag(event)">1</div>
+        <div class="item" draggable="true" ondragstart="drag(event)">2</div>
+        <div class="item" draggable="true" ondragstart="drag(event)">3</div>
+    </div>
+    <div class="sortable" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div class="item" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+        <div class="item" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+        <div class="item" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+    </div>
+
+    <script>
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.innerHTML);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData("text");
+            event.target.innerHTML = data;
+        }
+    </script>
+</body>
+</html>

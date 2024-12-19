@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記憶翻牌遊戲</title>
+    <style>
+        .card {
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+            background-color: #ccc;
+            display: inline-block;
+            text-align: center;
+            line-height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>記憶翻牌遊戲</h1>
+    <div id="gameBoard"></div>
+
+    <script>
+        const cards = ['A', 'A', 'B', 'B', 'C', 'C'];
+        let cardValues = [];
+        let cardIds = [];
+
+        function shuffleCards() {
+            cards.sort(() => Math.random() - 0.5);
+        }
+
+        function createCard(id) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.setAttribute('data-id', id);
+            card.addEventListener('click', flipCard);
+            document.getElementById('gameBoard').appendChild(card);
+        }
+
+        function flipCard() {
+            const selectedCard = this;
+            const cardId = selectedCard.getAttribute('data-id');
+            selectedCard.textContent = cards[cardId];
+
+            cardValues.push(cards[cardId]);
+            cardIds.push(cardId);
+
+            if (cardValues.length === 2) {
+                setTimeout(checkMatch, 500);
+            }
+        }
+
+        function checkMatch() {
+            if (cardValues[0] === cardValues[1]) {
+                alert('配對成功！');
+            } else {
+                alert('配對失敗！');
+            }
+            resetCards();
+        }
+
+        function resetCards() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.textContent = '';
+            });
+            cardValues = [];
+            cardIds = [];
+        }
+
+        shuffleCards();
+        cards.forEach((_, index) => createCard(index));
+    </script>
+</body>
+</html>

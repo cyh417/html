@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打字速度測試</title>
+</head>
+<body>
+    <h1>打字速度測試</h1>
+    <p id="textToType">The quick brown fox jumps over the lazy dog.</p>
+    <textarea id="inputText" placeholder="開始打字..."></textarea>
+    <p id="result"></p>
+
+    <script>
+        const textToType = document.getElementById('textToType').textContent;
+        let startTime;
+        
+        document.getElementById('inputText').addEventListener('input', function() {
+            if (!startTime) {
+                startTime = new Date();
+            }
+            const typedText = this.value;
+            if (typedText === textToType) {
+                const endTime = new Date();
+                const timeTaken = (endTime - startTime) / 1000; // in seconds
+                document.getElementById('result').textContent = `完成！用時：${timeTaken} 秒`;
+            }
+        });
+    </script>
+</body>
+</html>

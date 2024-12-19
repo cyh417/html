@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜數字遊戲</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #log {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>猜數字遊戲</h1>
+    <p>猜一個範圍內的隨機數字！</p>
+
+    <label for="range">請選擇範圍：</label>
+    <input type="number" id="min" placeholder="最小值" value="1">
+    <input type="number" id="max" placeholder="最大值" value="100">
+    <button onclick="setRange()">設定範圍</button>
+
+    <div id="game">
+        <p id="hint">請猜測數字：</p>
+        <input type="number" id="guess" placeholder="輸入你的猜測">
+        <button onclick="makeGuess()">猜測</button>
+    </div>
+
+    <h2>猜測紀錄</h2>
+    <div id="log"></div>
+
+    <script>
+        let randomNumber;
+        let minRange = 1;
+        let maxRange = 100;
+        let logDiv = document.getElementById('log');
+
+        function setRange() {
+            const min = parseInt(document.getElementById('min').value);
+            const max = parseInt(document.getElementById('max').value);
+            if (min >= max) {
+                alert('範圍無效！最小值必須小於最大值。');
+                return;
+            }
+            minRange = min;
+            maxRange = max;
+            randomNumber = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
+            document.getElementById('hint').textContent = `請猜測數字，範圍：${minRange} 到 ${maxRange}`;
+            logDiv.innerHTML = '';
+            alert('範圍已設定，開始遊戲吧！');
+        }
+
+        function makeGuess() {
+            const guess = parseInt(document.getElementById('guess').value);
+            if (isNaN(guess)) {
+                alert('請輸入一個有效的數字！');
+                return;
+            }
+            if (guess < minRange || guess > maxRange) {
+                alert(`請輸入範圍內的數字！ (${minRange} 到 ${maxRange})`);
+                return;
+            }
+
+            if (guess === randomNumber) {
+                logDiv.innerHTML += `<p>恭喜！你猜對了！數字是 ${randomNumber}</p>`;
+                alert('恭喜！你猜對了！');
+                setRange(); // 重置遊戲
+            } else if (guess < randomNumber) {
+                logDiv.innerHTML += `<p>${guess} 太小了。</p>`;
+            } else {
+                logDiv.innerHTML += `<p>${guess} 太大了。</p>`;
+            }
+
+            logDiv.scrollTop = logDiv.scrollHeight; // 自動滾動到最新記錄
+        }
+
+        // 初始化隨機數字
+        setRange();
+    </script>
+</body>
+</html>

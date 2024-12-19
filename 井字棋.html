@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>井字棋</title>
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            line-height: 100px;
+            border: 1px solid #000;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>井字棋</h1>
+    <div id="board" class="board"></div>
+    <p id="gameStatus">玩家 X 先手</p>
+
+    <script>
+        let currentPlayer = 'X';
+        const board = document.getElementById('board');
+        const status = document.getElementById('gameStatus');
+        const gameBoard = Array(9).fill(null);
+
+        function checkWinner() {
+            const winningCombos = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+                [0, 4, 8], [2, 4, 6]              // diagonals
+            ];
+
+            for (const combo of winningCombos) {
+                const [a, b, c] = combo;
+                if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+                    status.textContent = `${currentPlayer} 贏了！`;
+                    return true;
+                }
+            }
+            return gameBoard.every(cell => cell !== null);
+        }
+
+        function handleClick(index) {
+            if (gameBoard[index]) return;
+            gameBoard[index] = currentPlayer;
+            board.children[index].textContent = currentPlayer;
+
+            if (checkWinner()) {
+                return;
+            }
+
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            status.textContent = `玩家 ${currentPlayer} 的回合`;
+        }
+
+        function createCell(index) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.addEventListener('click', () => handleClick(index));
+            board.appendChild(cell);
+        }
+
+        for (let i = 0; i < 9; i++) {
+            createCell(i);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>算BMI囉</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            text-align: center;
+        }
+        h1 {
+            color: #69c8ce;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 15px;
+        }
+        button {
+            background-color: #dbb4f5;
+            color: rgb(8, 8, 8);
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #b6f9b9;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>BMI轉換器</h1>
+    <div class="container">
+        <label for="height">身高 (cm):</label><br>
+        <input type="number" id="height" placeholder="請輸入您的身高(cm)"><br>
+        <label for="weight">體重 (kg):</label><br>
+        <input type="number" id="weight" placeholder="請輸入您的體重(kg)"><br>
+        <button onclick="calculateBMI()">點擊這裡計算BMI值ㄛ</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+            const resultElement = document.getElementById('result');
+
+            if (height > 0 && weight > 0) {
+                const heightInMeters = height / 100;
+                const bmi = (weight / (heightInMeters * heightInMeters)).toFixed(2);
+
+                let category = '';
+                if (bmi < 18.5) {
+                    category = '過輕';
+                } else if (bmi < 24.9) {
+                    category = '正常';
+                } else if (bmi < 29.9) {
+                    category = '過重';
+                } else {
+                    category = '肥胖';
+                }
+
+                resultElement.innerHTML = `您的 BMI 是 <strong>${bmi}</strong>，屬於 <strong>${category}</strong>。`;
+            } else {
+                resultElement.innerHTML = '請輸入有效的身高和體重！';
+            }
+        }
+    </script>
+</body>
+</html>
